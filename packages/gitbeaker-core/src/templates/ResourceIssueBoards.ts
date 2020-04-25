@@ -23,12 +23,6 @@ export class ResourceIssueBoards extends BaseService {
     return RequestHelper.post(this, `${rId}/boards`, { name, ...options });
   }
 
-  createList(resourceId: string | number, boardId: number, labelId: number, options?: Sudo) {
-    const [rId, bId] = [resourceId, boardId].map(encodeURIComponent);
-
-    return RequestHelper.post(this, `${rId}/boards/${bId}/lists`, { labelId, ...options });
-  }
-
   edit(resourceId: string | number, boardId: number, options?: BaseRequestOptions) {
     const [rId, bId] = [resourceId, boardId].map(encodeURIComponent);
 

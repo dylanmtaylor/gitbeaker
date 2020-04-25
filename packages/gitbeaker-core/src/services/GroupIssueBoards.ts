@@ -3,6 +3,7 @@ import {
   BaseServiceOptions,
   BaseRequestOptions,
   PaginatedRequestOptions,
+  RequestHelper,
   Sudo,
 } from '../infrastructure';
 
@@ -10,8 +11,6 @@ export interface GroupIssueBoards extends ResourceIssueBoards {
   all(groupId: string | number, options?: PaginatedRequestOptions);
 
   create(groupId: string | number, name: string, options?: Sudo);
-
-  createList(groupId: string | number, boardId: number, labelId: number, options?: Sudo);
 
   edit(groupId: string | number, boardId: number, options?: BaseRequestOptions);
 
@@ -37,5 +36,11 @@ export interface GroupIssueBoards extends ResourceIssueBoards {
 export class GroupIssueBoards extends ResourceIssueBoards {
   constructor(options: BaseServiceOptions = {}) {
     super('groups', options);
+  }
+
+  createList(groupId: string | number, boardId: number, labelId: number, options?: Sudo) {
+    const [rId, bId] = [groupId, boardId].map(encodeURIComponent);
+
+    return RequestHelper.post(this, `${rId}/boards/${bId}/lists`, { labelId, ...options });
   }
 }
